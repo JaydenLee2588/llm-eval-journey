@@ -1,0 +1,36 @@
+# 学习日志 - 2026-10-29 (Week 1 / Day 2)
+
+## 📌 今日核心避坑知识点：列表的原地修改（In-place）与返回值陷阱
+
+### 1. 现象与报错
+在尝试使用 `extend()` 或类似方法链式赋值时：
+```python
+list_b = [].extend(list_a)
+print(list_b)        # 输出: None
+list_b.clear()       # 报错: AttributeError: 'NoneType' object has no attribute 'clear'
+```
+
+### 2. 底层原理
+Python 的设计哲学中，为了明确区分“修改原对象”与“创建新对象”，遵循以下规则：
+* **原地修改方法（In-place Methods）**：直接在原有内存地址上修改对象，**其返回值永远为 `None`**（防止开发者误以为生成了新对象）。
+  * 常见代表：`.append()`、`.extend()`、`.insert()`、`.remove()`、`.clear()`、`.sort()`、`.reverse()`
+  * ❌ 错误做法：`new_list = old_list.sort()` 或 `new_list = [].extend(old_list)`（这会导致 `new_list` 变成 `None`）
+  * ✅ 正确做法：单独成行调用方法修改对象，不要将其赋值给变量。
+
+* **生成新对象的方法/操作符**：不会修改原对象，而是计算并返回一个全新的对象副本。
+  * 常见代表：切片 `[:]`、列表拼接 `+`、内置函数 `sorted(list)`、`.copy()`、列表推导式
+  * ✅ 正确做法：`new_list = sorted(old_list)` 或 `new_list = old_list.copy()`
+
+### 3. 常见场景正确写法对比
+| 需求 | ❌ 错误写法（结果为 None） | ✅ 正确写法 |
+| :--- | :--- | :--- |
+| **复制列表** | `b = [].extend(a)` | `b = a.copy()` 或 `b = a[:]` |
+| **排序列表** | `b = a.sort()` | 原地排：`a.sort()`<br>生成新列表：`b = sorted(a)` |
+| **列表反转** | `b = a.reverse()` | 原地反转：`a.reverse()`<br>切片翻转：`b = a[::-1]` |
+| **追加数据** | `b = a.append("x")` | `a.append("x")`（单独执行） |
+
+---
+
+### 💡 核心记忆口诀
+> **“就地修改返回 `None`，生成新件才赋值。”**
+
