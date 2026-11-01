@@ -1,0 +1,28 @@
+{
+  "report_title": "大模型综合能力榜单 (Leaderboard)",
+  "source_benchmark": "LLM-General-Capabilities-2026",
+  "generated_date": "2026-10-31",
+  "leaderboard": [
+    {
+      "rank": 1,
+      "model": "Claude-3.5-Sonnet",
+      "overall_score": 92.4,
+      "coding_score": 0.938,
+      "efficiency": 0.1106
+    },
+    {
+      "rank": 2,
+      "model": "GPT-4o",
+      "overall_score": 89.8,
+      "coding_score": 0.92,
+      "efficiency": 0.1769
+    },
+    {
+      "rank": 3,
+      "model": "Llama-3-70B-Instruct",
+      "overall_score": 84.6,
+      "coding_score": 0.865,
+      "efficiency": 0.0615
+    }
+  ]
+}
